@@ -51,16 +51,20 @@ exports.deleteFoodItem = async (req, res) => {
 };
 
 exports.getFoodItems = async (req, res) => {
-  const canteenId = req.canteenId;
-  const { mealType } = req.query;
+  const { canteenId, mealType } = req.query;
 
-  let query = { canteen: canteenId };
+  let query = {};
+
+  if (canteenId) {
+    query.canteen = canteenId;
+  }
 
   if (mealType) {
     query.mealType = mealType;
   }
 
-  const foodItems = await FoodItem.find(query).populate("canteen");
+  const foodItems = await FoodItem.find(query).populate('canteen');
 
   res.status(200).json({ foodItems });
 };
+
