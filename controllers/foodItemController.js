@@ -2,7 +2,7 @@ const FoodItem = require("../models/foodItemModel");
 const Canteen = require("../models/canteenModel");
 
 exports.createFoodItem = async (req, res) => {
-  const { name, quantity, mealType } = req.body;
+  const { name, quantity, mealType, imageUrl, price } = req.body;
   const canteenId = req.canteenId;
 
   const canteen = await Canteen.findById(canteenId);
@@ -15,6 +15,8 @@ exports.createFoodItem = async (req, res) => {
     quantity,
     mealType,
     canteen: canteenId,
+    imageUrl,
+    price,
   });
   await foodItem.save();
 
@@ -63,8 +65,7 @@ exports.getFoodItems = async (req, res) => {
     query.mealType = mealType;
   }
 
-  const foodItems = await FoodItem.find(query).populate('canteen');
+  const foodItems = await FoodItem.find(query).populate("canteen");
 
   res.status(200).json({ foodItems });
 };
-
