@@ -6,6 +6,8 @@ const cors = require("cors");
 const canteenRoutes = require("./routes/canteenRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const foodItemRoutes = require("./routes/foodItemRoutes");
+const checkoutRoutes = require("./routes/checkoutRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 dotenv.config();
 
@@ -25,9 +27,11 @@ mongoose
     console.log(err);
   });
 
+app.use("/api/checkouts", checkoutRoutes);
 app.use("/api/canteen", canteenRoutes);
 app.use("/api/client", clientRoutes);
 app.use("/api/food-items", foodItemRoutes);
+app.use("/api/order-history", orderRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
