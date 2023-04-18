@@ -1,6 +1,8 @@
 const Checkout = require("../models/checkoutModel");
 const CheckoutItem = require("../models/checkoutItemModel");
-const FoodItem = require("../models/foodItemModel"); // Change this line
+const FoodItem = require("../models/foodItemModel");
+const { sendOrderEmail, generateQRCode } = require("../mailer");
+const Client = require("../models/clientModel");
 
 const createCheckout = async (req, res) => {
   console.log(req.body);
@@ -9,6 +11,7 @@ const createCheckout = async (req, res) => {
     const canteenId = req.body.canteenId;
     const userId = req.userId;
     const price = req.body.amount;
+    console.log(items);
 
     const checkoutItems = await CheckoutItem.insertMany(
       items.map((item) => ({
@@ -17,7 +20,7 @@ const createCheckout = async (req, res) => {
         quantity: item.quantity,
         imageUrl: item.imageUrl,
         name: item.name,
-        price,
+        price: item.price,
       }))
     );
 
@@ -29,6 +32,7 @@ const createCheckout = async (req, res) => {
         quantity: item.quantity,
         imageUrl: item.imageUrl,
         name: item.name,
+        price: item.price,
       })),
       canteenId,
       price,
@@ -39,10 +43,21 @@ const createCheckout = async (req, res) => {
     // Update item quantities
     for (const item of items) {
       await FoodItem.findByIdAndUpdate(item.id, {
-        // Change this line
         $inc: { quantity: -item.quantity },
       });
     }
+
+    // Get user's email
+    const client = await Client.findById(userId);
+    const userEmail = client.email;
+
+    // Generate QR code
+    const qrCode = await generateQRCode(
+      `http://192.168.1.4:3000/api/order-history/${checkout._id}`
+    );
+
+    // Send order confirmation email
+    await sendOrderEmail(userEmail, checkout, qrCode);
 
     res
       .status(201)

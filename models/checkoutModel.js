@@ -18,6 +18,9 @@ const ItemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  price: {
+    type: Number,
+  },
 });
 
 const CheckoutSchema = new mongoose.Schema({

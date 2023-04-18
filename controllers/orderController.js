@@ -1,4 +1,6 @@
 const Checkout = require("../models/checkoutModel");
+const path = require("path");
+const ejs = require("ejs");
 
 const getOrderHistoryByUserId = async (req, res) => {
   try {
@@ -23,7 +25,18 @@ const getOrderByOrderId = async (req, res) => {
 
     const order = await Checkout.findById(orderId).populate("items");
 
-    res.status(200).json({ message: "Order fetched successfully", order });
+    ejs.renderFile(
+      path.join(__dirname, "../views/order.ejs"),
+      { order },
+      (err, html) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ message: "Error rendering order template" });
+        } else {
+          res.status(200).send(html);
+        }
+      }
+    );
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error fetching order" });
