@@ -17,6 +17,7 @@ const createCheckout = async (req, res) => {
         quantity: item.quantity,
         imageUrl: item.imageUrl,
         name: item.name,
+        price,
       }))
     );
 
