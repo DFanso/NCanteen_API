@@ -68,7 +68,6 @@ const cancelOrder = async (req, res) => {
 
     // Update the food item quantities by adding back the canceled quantities
     for (const item of order.items) {
-      console.log(item);
       await FoodItem.findByIdAndUpdate(item.id, {
         $inc: { quantity: item.quantity },
       });

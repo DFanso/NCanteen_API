@@ -27,6 +27,9 @@ const CheckoutSchema = new mongoose.Schema({
     required: true,
   },
   items: [ItemSchema],
+  price: {
+    type: Number,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
