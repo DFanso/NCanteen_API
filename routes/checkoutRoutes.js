@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { createCheckout } = require("../controllers/checkoutController");
+const {
+  createCheckout,
+  cancelOrder,
+} = require("../controllers/checkoutController");
 const authenticate = require("../middlewares/authenticate");
 
 const logRouteHit = (req, res, next) => {
@@ -9,5 +12,6 @@ const logRouteHit = (req, res, next) => {
 };
 
 router.post("/", logRouteHit, authenticate, createCheckout);
+router.put("/cancel/:orderId", authenticate, cancelOrder);
 
 module.exports = router;
