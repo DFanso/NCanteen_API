@@ -71,7 +71,8 @@ exports.getFoodItems = async (req, res) => {
 };
 
 exports.getFoodItemsByCanteenId = async (req, res) => {
-  const { canteenId } = req.canteenId;
+  const canteenId = req.canteenId;
+  console.log(canteenId);
 
   const canteen = await Canteen.findById(canteenId);
   if (!canteen) {
