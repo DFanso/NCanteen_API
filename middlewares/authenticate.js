@@ -17,15 +17,14 @@ module.exports = (req, res, next) => {
   }
 
   const token = tokenParts[1];
-  console.log(token);
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  console.log(decoded);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
+
     req.canteenId = decoded.id;
     req.userId = decoded.id;
+
+    console.log(decoded);
     next();
   } catch (err) {
     res.status(400).json({ message: "Token is not valid" });

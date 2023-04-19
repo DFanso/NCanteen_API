@@ -45,7 +45,8 @@ const getOrderByOrderId = async (req, res) => {
 
 const getOrderHistoryByCanteenId = async (req, res) => {
   try {
-    const canteenId = req.params.canteenId;
+    const canteenId = req.canteenId;
+    console.log(canteenId);
 
     const orderHistory = await Checkout.find({ canteenId: canteenId }).populate(
       "items"
