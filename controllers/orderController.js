@@ -42,6 +42,18 @@ const getOrderByOrderId = async (req, res) => {
     res.status(500).json({ message: "Error fetching order" });
   }
 };
+const fetchOrderByOrderId = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+
+    const order = await Checkout.findById(orderId).populate("items");
+
+    res.status(200).json({ message: "Order  fetched successfully", order });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching order" });
+  }
+};
 
 const getOrderHistoryByCanteenId = async (req, res) => {
   try {
@@ -65,4 +77,5 @@ module.exports = {
   getOrderHistoryByUserId,
   getOrderByOrderId,
   getOrderHistoryByCanteenId,
+  fetchOrderByOrderId,
 };
