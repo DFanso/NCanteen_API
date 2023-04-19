@@ -69,3 +69,18 @@ exports.getFoodItems = async (req, res) => {
 
   res.status(200).json({ foodItems });
 };
+
+exports.getFoodItemsByCanteenId = async (req, res) => {
+  const { canteenId } = req.canteenId;
+
+  const canteen = await Canteen.findById(canteenId);
+  if (!canteen) {
+    return res.status(400).json({ message: "Canteen not found" });
+  }
+
+  const foodItems = await FoodItem.find({ canteen: canteenId }).populate(
+    "canteen"
+  );
+
+  res.status(200).json({ foodItems });
+};
