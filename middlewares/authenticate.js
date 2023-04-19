@@ -27,6 +27,7 @@ module.exports = (req, res, next) => {
     console.log(decoded);
     next();
   } catch (err) {
+    console.log("hi");
     res.status(400).json({ message: "Token is not valid" });
   }
 };
