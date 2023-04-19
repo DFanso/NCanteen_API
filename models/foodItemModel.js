@@ -4,16 +4,13 @@ const { Schema } = mongoose;
 const FoodItemSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
   },
   quantity: {
     type: Number,
-    required: true,
   },
   mealType: {
     type: String,
     enum: ["breakfast", "lunch", "dinner"],
-    required: true,
   },
   canteen: {
     type: Schema.Types.ObjectId,
@@ -24,7 +21,6 @@ const FoodItemSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    required: true,
   },
 });
 
