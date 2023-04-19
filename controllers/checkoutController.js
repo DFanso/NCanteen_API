@@ -96,7 +96,37 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+const updateOrder = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const status = req.body.status;
+
+    // Find the order by ID and update its status to "Canceled"
+    const order = await Checkout.findByIdAndUpdate(
+      orderId,
+      { status: status },
+      { new: true }
+    );
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Update the food item quantities by adding back the canceled quantities
+    for (const item of order.items) {
+      await FoodItem.findByIdAndUpdate(item.id, {
+        $inc: { quantity: item.quantity },
+      });
+    }
+
+    res.status(200).json({ message: "Order Updated successfully", order });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error Updating order" });
+  }
+};
+
 module.exports = {
   createCheckout,
   cancelOrder,
+  updateOrder,
 };
