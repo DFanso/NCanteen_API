@@ -25,11 +25,11 @@ exports.createFoodItem = async (req, res) => {
 
 exports.updateFoodItem = async (req, res) => {
   const { id } = req.params;
-  const { name, quantity, mealType } = req.body;
+  const { name, quantity, mealType, price, imageUrl } = req.body;
 
   const foodItem = await FoodItem.findByIdAndUpdate(
     id,
-    { name, quantity, mealType },
+    { name, quantity, mealType, price, imageUrl },
     { new: true, runValidators: true }
   );
 
