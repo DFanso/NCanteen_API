@@ -25,19 +25,33 @@ exports.createFoodItem = async (req, res) => {
 
 exports.updateFoodItem = async (req, res) => {
   const { id } = req.params;
-  const { name, quantity, mealType, price, imageUrl } = req.body;
 
-  const foodItem = await FoodItem.findByIdAndUpdate(
-    id,
-    { name, quantity, mealType, price, imageUrl },
-    { new: true, runValidators: true }
-  );
+  try {
+    const foodItem = await FoodItem.findById(id);
 
-  if (!foodItem) {
-    return res.status(404).json({ message: "Food item not found" });
+    if (!foodItem) {
+      return res.status(404).json({ message: "Food item not found" });
+    }
+
+    const { name, quantity, mealType, price, imageUrl } = req.body;
+
+    if (name !== undefined) foodItem.name = name;
+    if (quantity !== undefined) foodItem.quantity = quantity;
+    if (mealType !== undefined) foodItem.mealType = mealType;
+    if (price !== undefined) foodItem.price = price;
+    if (imageUrl !== undefined) foodItem.imageUrl = imageUrl;
+
+    await foodItem.save();
+
+    res
+      .status(200)
+      .json({ message: "Food item updated successfully", foodItem });
+  } catch (error) {
+    res.status(500).json({
+      message: "An error occurred while updating the food item",
+      error,
+    });
   }
-
-  res.status(200).json({ message: "Food item updated successfully", foodItem });
 };
 
 exports.deleteFoodItem = async (req, res) => {
