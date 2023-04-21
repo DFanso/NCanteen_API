@@ -35,11 +35,11 @@ exports.updateFoodItem = async (req, res) => {
 
     const { name, quantity, mealType, price, imageUrl } = req.body;
 
-    if (name !== undefined) foodItem.name = name;
-    if (quantity !== undefined) foodItem.quantity = quantity;
-    if (mealType !== undefined) foodItem.mealType = mealType;
-    if (price !== undefined) foodItem.price = price;
-    if (imageUrl !== undefined) foodItem.imageUrl = imageUrl;
+    if (name !== "") foodItem.name = name;
+    if (quantity !== "") foodItem.quantity = quantity;
+    if (mealType !== "") foodItem.mealType = mealType;
+    if (price !== "") foodItem.price = price;
+    if (imageUrl !== "") foodItem.imageUrl = imageUrl;
 
     await foodItem.save();
 
