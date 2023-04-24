@@ -53,7 +53,7 @@ const createCheckout = async (req, res) => {
 
     // Generate QR code
     const qrCode = await generateQRCode(
-      `http://192.168.1.4:3000/api/order-history/${checkout._id}`
+      `http://20.2.80.190:1214/api/order-history/${checkout._id}`
     );
 
     // Send order confirmation email
