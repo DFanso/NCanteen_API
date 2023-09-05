@@ -1,0 +1,16 @@
+version: '3'
+services:
+  app:
+    image: ncanteen-api:latest 
+    container_name: ncanteen-api
+    ports:
+      - "3000:3000" 
+    environment:
+      - NODE_ENV=production 
+    networks:
+      - my-network
+    env_file:
+      - ./.env
+
+networks:
+  my-network:
