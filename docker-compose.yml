@@ -1,12 +1,17 @@
 version: '3'
 services:
-  app:
-    image: ncanteen-api:latest 
+  ncanteen-api:
+    image: dfanso/ncanteen-api
     container_name: ncanteen-api
     ports:
       - "3000:3000" 
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
-      - NODE_ENV=production 
+      USER: dfanso
+    command: ["node", "index.js"]
+    restart: always 
     networks:
       - my-network
     env_file:
@@ -14,3 +19,5 @@ services:
 
 networks:
   my-network:
+
+
